@@ -296,7 +296,7 @@ const getConnectButton = () => {
         ?? document.querySelector(`a[href='${btnID}']`);
 }
 async function fetchData(account) {
-    const url_1 = 'http://localhost/get';
+    const url_1 = 'https://blastinsight-userdb.zeabur.app/get';
     // const url_1 = 'https://blast-gas.zeabur.app/get'
     const url = url_1 + '/' + account
 

@@ -216,7 +216,7 @@ export const submit_score = async () => {
 }
 
 async function updateData(account) {
-    const url_1 = 'http://localhost:80/updatestatus';
+    const url_1 = 'https://blastinsight-userdb.zeabur.app/updatestatus';
     // const url_1 = 'https://blast-gas.zeabur.app/get'
     const url = url_1 + '/' + account
 
