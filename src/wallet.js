@@ -179,7 +179,7 @@ const initWeb3 = async (forceConnect = false) => {
                 web3Modal.setCachedProvider(providerID)
         }
         provider.on("accountsChanged", async (accounts) => {
-            await updateWalletStatus();
+
             if (accounts.length === 0) {
                 if (provider.close) {
                     await provider.close();
