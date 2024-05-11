@@ -496,6 +496,15 @@ const createFloatingWindow = async () => {
     disconnectBtn.onclick = async () => {
         await disconnectWallet();
         walletBtn.textContent = 'Connect Wallet';
+        const blurDiv = document.getElementById('blur-div');
+        const blurbtn = document.getElementById('pro-insight');
+
+        // 显示遮罩和按钮
+        if (blurDiv && blurbtn) {
+            blurDiv.style.filter = 'blur(8px)';
+            blurbtn.style.display = 'block';
+            console.log("显示遮罩和按钮")
+        }
         document.body.removeChild(document.getElementById('floating-window'));
     };
     disconnectBtn.onmouseover = () => {
