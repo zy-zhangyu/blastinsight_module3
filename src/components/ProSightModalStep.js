@@ -14,7 +14,7 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
     const [mintPrice, setMintPrice] = useState(0)
     const [mintedNumber, setMintedNumber] = useState(0)
     const [totalNumber, setTotalNumber] = useState(10000)
-    const [success, setSuccess] = useState(false);
+    let flag = false
 
     useEffect(() => {
         if (isEthereumContract()) {
@@ -47,8 +47,8 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
         setIsLoading(true)
         const { tx } = await pro_insight()
         console.log("pro_insight666666666")
-        setSuccess(true); // 设置成功状态为 true
-        console.log("success" + success)
+        flag = true; // 设置成功状态为 true
+        console.log("flag" + flag)
         console.log("pro_insight888888888")
         if (tx === undefined) {
             setIsLoading(false)
@@ -79,7 +79,7 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
     }
     return (
         <>
-            {!success && ( // 如果成功状态为 false，显示按钮、计数器和属性的 div 元素
+            {!flag && ( // 如果成功状态为 false，显示按钮、计数器和属性的 div 元素
                 <div style={{ width: "100%" }}>
                     <Button
                         onClick={onSuccess}
