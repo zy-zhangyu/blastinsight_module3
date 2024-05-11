@@ -92,6 +92,7 @@ export const ProSightModal = (props, ref) => {
                         setStep={setStep}
                         setIsLoading={setIsLoading}
                         setFlag={setFlag}
+                        falg={flag}
                     />}
                 </DialogContent>
             </>}
