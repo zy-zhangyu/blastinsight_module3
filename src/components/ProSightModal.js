@@ -21,8 +21,8 @@ const DialogTitleWithClose = ({ children, onClose }) => {
                     color: (theme) => theme.palette.grey[500],
                 }}
             >
-            <CloseIcon />
-        </IconButton>) : null}
+                <CloseIcon />
+            </IconButton>) : null}
     </DialogTitle>
 }
 
@@ -32,14 +32,14 @@ export const ProSightModal = (props, ref) => {
     const [isLoading, setIsLoading] = useState(false)
     const [step, setStep] = useState(1)
     const [quantity, setQuantity] = useState(1)
-
+    const [flag, setFlag] = useState(false);
     const handleClose = () => {
         setIsOpen(false);
     }
 
     useImperativeHandle(ref, () => ({
-            setIsOpen, setQuantity
-        })
+        setIsOpen, setQuantity
+    })
     )
 
     return (
@@ -77,22 +77,23 @@ export const ProSightModal = (props, ref) => {
                         textAlign: "center"
                     }} variant="subtitle2">
                         Wait up to 2-3 sec until the transaction appears in your wallet
-                        <br/><br/>
+                        <br /><br />
                         {!isMobile() && "If you don't see the Confirm button, scroll down ⬇️"}</Typography>}
                 </Box>
             }
             {!isLoading && <>
-            <DialogTitleWithClose onClose={handleClose}>
-                <Typography variant="h1">Buy Now</Typography>
-            </DialogTitleWithClose>
-            <DialogContent className="mintModal-content">
-                {step === 1 && <QuantityModalStep
-                    setTxHash={setTxHash}
-                    setQuantity={setQuantity}
-                    setStep={setStep}
-                    setIsLoading={setIsLoading}
-                />}
-            </DialogContent>
+                <DialogTitleWithClose onClose={handleClose}>
+                    <Typography variant="h1">Buy Now</Typography>
+                </DialogTitleWithClose>
+                <DialogContent className="mintModal-content">
+                    {step === 1 && <QuantityModalStep
+                        setTxHash={setTxHash}
+                        setQuantity={setQuantity}
+                        setStep={setStep}
+                        setIsLoading={setIsLoading}
+                        setFlag={setFlag}
+                    />}
+                </DialogContent>
             </>}
         </Dialog>
     )

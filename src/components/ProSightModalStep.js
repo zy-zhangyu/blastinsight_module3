@@ -8,13 +8,12 @@ import { parseTxError, roundToDecimal } from '../utils';
 import { Attribution } from './Attribution';
 import { isEthereumContract } from "../contract";
 
-export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setStep }) => {
+export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setStep, setFlag }) => {
     const [quantityValue, setQuantityValue] = useState(1)
     const [maxTokens, setMaxTokens] = useState(3)
     const [mintPrice, setMintPrice] = useState(0)
     const [mintedNumber, setMintedNumber] = useState(0)
     const [totalNumber, setTotalNumber] = useState(10000)
-    let flag = false
 
     useEffect(() => {
         if (isEthereumContract()) {
@@ -47,7 +46,7 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
         setIsLoading(true)
         const { tx } = await pro_insight()
         console.log("pro_insight666666666")
-        flag = true; // 设置成功状态为 true
+        setFlag(true); // 设置成功状态为 true
         console.log("flag" + flag)
         console.log("pro_insight888888888")
         if (tx === undefined) {
