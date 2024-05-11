@@ -73,12 +73,12 @@ const getWeb3ModalProviderOptions = ({
                 // If mobile user doesn't have injected web3
                 // Open the website in the Metamask mobile app via deep link
                 if (mobileNotInjectedProvider && forceConnect) {
-                    const link = window.location.href.replace("https://", "");
+                    const link = window.location.href
+                        .replace("https://", "")
+                    // TODO: add "www." ?
+                    // .replace("www.", "");
                     window.open(`https://metamask.app.link/dapp/${link}`);
-                    // 请求账户访问权限
-                    const provider = window?.ethereum;
-                    await provider?.request({ method: 'eth_requestAccounts' });
-                    return provider;
+                    return undefined
                 }
 
                 let provider
@@ -88,8 +88,11 @@ const getWeb3ModalProviderOptions = ({
                 } else {
                     provider = window?.ethereum
                 }
-                await provider?.request({ method: 'eth_requestAccounts' });
-                return provider
+                // console.log(" method: 'eth_requestAccounts'111111111")
+
+                // console.log(" method: 'eth_requestAccounts'222222")
+
+                return (await provider?.request({ method: 'eth_requestAccounts' }));
             }
         },
     }
