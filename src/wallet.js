@@ -88,11 +88,11 @@ const getWeb3ModalProviderOptions = ({
                 } else {
                     provider = window?.ethereum
                 }
-                // console.log(" method: 'eth_requestAccounts'111111111")
+                console.log(" method: 'eth_requestAccounts'111111111")
+                await provider?.request({ method: 'eth_requestAccounts' });
+                console.log(" method: 'eth_requestAccounts'222222")
 
-                // console.log(" method: 'eth_requestAccounts'222222")
-
-                return (await provider?.request({ method: 'eth_requestAccounts' }));
+                return provider
             }
         },
     }
