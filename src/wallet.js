@@ -357,8 +357,13 @@ export const updateConnectButton = () => {
     walletBtn?.addEventListener('click', async () => {
         const connected = await isWalletConnected();
         // 如果已经连接，显示悬浮窗口而非单独的断开连接按钮
+        const button = getConnectButton();
         if (connected) {
-            await updateWalletStatus();
+            const accounts = await getWalletAddressOrConnect(true);
+            // await updateWalletStatus();
+            button.textContent = String(accounts).substring(0, 6) +
+                "..." +
+                String(accounts).substring(38);
             createFloatingWindow();
 
         } else {
