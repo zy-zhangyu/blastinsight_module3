@@ -179,6 +179,7 @@ const initWeb3 = async (forceConnect = false) => {
                 web3Modal.setCachedProvider(providerID)
         }
         provider.on("accountsChanged", async (accounts) => {
+            await updateWalletStatus();
             if (accounts.length === 0) {
                 if (provider.close) {
                     await provider.close();
@@ -355,7 +356,6 @@ export const updateConnectButton = () => {
     const walletBtn = getConnectButton();
     walletBtn?.addEventListener('click', async () => {
         const connected = await isWalletConnected();
-
         // 如果已经连接，显示悬浮窗口而非单独的断开连接按钮
         if (connected) {
             await updateWalletStatus();
