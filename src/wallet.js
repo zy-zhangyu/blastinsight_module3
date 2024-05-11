@@ -285,7 +285,7 @@ const tryInitWeb3 = async (forceConnect) => {
 
 export const connectWallet = async () => {
     console.log("Connecting Wallet")
-    await tryInitWeb3(false)
+    await tryInitWeb3(true)
     await updateWalletStatus()
     console.log("Connected Wallet")
 }
