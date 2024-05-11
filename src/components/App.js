@@ -24,7 +24,7 @@ import ScoreModal, { scoreModalRef } from "./ShowScoreModal.js";
 import ProSightModal, { proSightModalRef } from "./ProSightModal.js";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../styles/theme.js";
-import { updateWalletStatus } from "./wallet.js";
+import { updateWalletStatus } from "../wallet.js";
 
 export const App = () => {
     useEffect(() => {
