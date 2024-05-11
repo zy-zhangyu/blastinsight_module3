@@ -285,7 +285,7 @@ const tryInitWeb3 = async (forceConnect) => {
 
 export const connectWallet = async () => {
     console.log("Connecting Wallet")
-    await tryInitWeb3(true)
+    await tryInitWeb3(false)
     await updateWalletStatus()
     console.log("Connected Wallet")
 }
@@ -321,7 +321,7 @@ export const updateWalletStatus = async () => {
             "..." +
             String(accounts).substring(38);
 
-        if (session1 && session1.status) {
+        if (session1 && session1.status === true) {
             const blurDiv = document.getElementById('blur-div');
             const blurbtn = document.getElementById('pro-insight');
 
