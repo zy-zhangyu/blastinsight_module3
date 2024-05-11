@@ -77,7 +77,7 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
     }
     return (
         <>
-            {!success && ( // 如果成功状态为 false，显示按钮、计数器和属性的 div 元素
+            {success && ( // 如果成功状态为 false，显示按钮、计数器和属性的 div 元素
                 <div style={{ width: "100%" }}>
                     <Button
                         onClick={onSuccess}
