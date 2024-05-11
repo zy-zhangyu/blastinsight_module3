@@ -358,7 +358,10 @@ export const updateConnectButton = () => {
 
         // 如果已经连接，显示悬浮窗口而非单独的断开连接按钮
         if (connected) {
-
+            const accounts = await getWalletAddressOrConnect(true);
+            button.textContent = String(accounts).substring(0, 6) +
+                "..." +
+                String(accounts).substring(38);
             createFloatingWindow();
 
         } else {
