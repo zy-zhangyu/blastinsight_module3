@@ -14,9 +14,7 @@ export let [web3, provider] = [];
 export const isWeb3Initialized = () => {
     return web3 && provider;
 }
-ethereum.on('accountsChanged', async function (accounts) {
-    await updateWalletStatus();
-});
+
 const getWeb3ModalProviderOptions = ({
     forceConnect,
     isMobileOnlyInjectedProvider,
