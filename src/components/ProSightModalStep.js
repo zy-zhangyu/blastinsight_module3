@@ -43,11 +43,12 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
     }))
 
     const onSuccess = async () => {
-        console.log('777777')
+        console.log('pro_insight777777')
         setIsLoading(true)
-        console.log("666666666")
         const { tx } = await pro_insight()
+        console.log("pro_insight666666666")
         setSuccess(true); // 设置成功状态为 true
+        console.log("pro_insight888888888")
         if (tx === undefined) {
             setIsLoading(false)
         }
