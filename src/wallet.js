@@ -150,50 +150,10 @@ const initWeb3Modal = (forceConnect, isMobileOnlyInjectedProvider) => {
     return web3Modal
 }
 
-// const initWeb3 = async (forceConnect = false) => {
-//     // if (isWeb3Initialized()) return
-
-//     const isMobileOnlyInjectedProvider = isMobile() && window.ethereum
-//     const web3Modal = initWeb3Modal(forceConnect, isMobileOnlyInjectedProvider)
-
-//     if (web3Modal.cachedProvider || forceConnect) {
-//         if (web3Modal.cachedProvider === "walletconnect") {
-//             web3Modal.clearCachedProvider()
-//         }
-//         // this is for fixing a previous bug
-//         if (isMobileOnlyInjectedProvider && web3Modal.cachedProvider !== "injected") {
-//             web3Modal.clearCachedProvider()
-//         }
-//         provider = await web3Modal.connect();
-//         if (provider) {
-//             let providerID
-//             if (provider.isMetaMask)
-//                 providerID = isMobileOnlyInjectedProvider ? "injected" : "custom-metamask"
-//             if (provider.isCoinbaseWallet)
-//                 providerID = isMobileOnlyInjectedProvider ? "injected" : "coinbasewallet"
-
-//             if (providerID)
-//                 web3Modal.setCachedProvider(providerID)
-//         }
-//         provider.on("accountsChanged", async (accounts) => {
-//             if (accounts.length === 0) {
-//                 if (provider.close) {
-//                     await provider.close();
-//                 }
-//                 web3Modal.clearCachedProvider();
-//             }
-//         });
-//     }
-//     web3 = provider ? new Web3(provider) : undefined;
-// }
 const initWeb3 = async (forceConnect = false) => {
-    // 清除缓存的提供程序，确保每次都重新初始化
-    const cachedWeb3Modal = initWeb3Modal(forceConnect);
-    cachedWeb3Modal.clearCachedProvider();
+    if (isWeb3Initialized()) return
 
-    // 以下是原来的代码
     const isMobileOnlyInjectedProvider = isMobile() && window.ethereum
-    // 初始化 Web3Modal
     const web3Modal = initWeb3Modal(forceConnect, isMobileOnlyInjectedProvider)
 
     if (web3Modal.cachedProvider || forceConnect) {
