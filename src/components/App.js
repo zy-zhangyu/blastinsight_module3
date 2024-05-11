@@ -25,14 +25,15 @@ import ProSightModal, { proSightModalRef } from "./ProSightModal.js";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../styles/theme.js";
 import { updateWalletStatus } from "../wallet.js";
-
+import Web3 from '../web3.js';
 export const App = () => {
     useEffect(() => {
-        ethereum.on('accountsChanged', async function (accounts) {
-            await updateWalletStatus();
-        });
+        if (typeof window.ethereum !== 'undefined') {
+            window.ethereum.on('accountsChanged', async function (accounts) {
+                await updateWalletStatus();
+            });
+        }
     }, []); // 空数组作为依赖，表示只在组件挂载时执行一次
-
     return (
         <ThemeProvider theme={theme}>
             <div>
