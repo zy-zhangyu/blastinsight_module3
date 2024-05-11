@@ -14,6 +14,7 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
     const [mintPrice, setMintPrice] = useState(0)
     const [mintedNumber, setMintedNumber] = useState(0)
     const [totalNumber, setTotalNumber] = useState(10000)
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         if (isEthereumContract()) {
@@ -46,6 +47,7 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
         setIsLoading(true)
         console.log("666666666")
         const { tx } = await pro_insight()
+        setSuccess(true); // 设置成功状态为 true
         if (tx === undefined) {
             setIsLoading(false)
         }
@@ -73,28 +75,38 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
             }
         })
     }
-
-    return <div style={{ width: "100%" }}>
-
-        <Button
-            onClick={onSuccess}
-            sx={{ mt: maxRange > 1 ? 4 : 2, width: "100%" }}
-            variant="contained"
-        >
-            {mintPrice !== undefined
-                ? (mintPrice !== 0 ? `Mint for ${roundToDecimal(mintPrice * quantityValue, 4)} ETH` : "Buy a Pro InSight")
-                : "Mint"}
-        </Button>
-        {!window.DEFAULTS?.hideCounter && <Box
-            sx={{
-                color: (theme) => theme.palette.grey[500],
-                display: "flex",
-                fontWeight: 400,
-                fontSize: 14,
-                justifyContent: "center",
-                mt: 2
-            }}>
-        </Box>}
-        <Attribution sx={{ mt: 3, justifyContent: "center" }} />
-    </div>
-}
+    return (
+        <>
+            {!success && ( // 如果成功状态为 false，显示按钮、计数器和属性的 div 元素
+                <div style={{ width: "100%" }}>
+                    <Button
+                        onClick={onSuccess}
+                        sx={{ mt: maxRange > 1 ? 4 : 2, width: "100%" }}
+                        variant="contained"
+                    >
+                        {mintPrice !== undefined
+                            ? mintPrice !== 0
+                                ? `Mint for ${roundToDecimal(mintPrice * quantityValue, 4)} ETH`
+                                : "Buy a Pro InSight"
+                            : "Mint"}
+                    </Button>
+                    {!window.DEFAULTS?.hideCounter && (
+                        <Box
+                            sx={{
+                                color: (theme) => theme.palette.grey[500],
+                                display: "flex",
+                                fontWeight: 400,
+                                fontSize: 14,
+                                justifyContent: "center",
+                                mt: 2
+                            }}
+                        >
+                            {/* 计数器组件 */}
+                        </Box>
+                    )}
+                    <Attribution sx={{ mt: 3, justifyContent: "center" }} />
+                </div>
+            )}
+        </>
+    );
+};
