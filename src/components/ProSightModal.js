@@ -32,7 +32,7 @@ export const ProSightModal = (props, ref) => {
     const [isLoading, setIsLoading] = useState(false)
     const [step, setStep] = useState(1)
     const [quantity, setQuantity] = useState(1)
-    const [flag, setFlag] = useState(false);
+
     const handleClose = () => {
         setIsOpen(false);
     }
@@ -91,8 +91,7 @@ export const ProSightModal = (props, ref) => {
                         setQuantity={setQuantity}
                         setStep={setStep}
                         setIsLoading={setIsLoading}
-                        setFlag={setFlag}
-                        falg={flag}
+
                     />}
                 </DialogContent>
             </>}
