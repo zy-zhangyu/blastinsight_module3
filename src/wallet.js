@@ -332,7 +332,17 @@ export const updateWalletStatus = async () => {
                 blurbtn.style.display = 'none';
                 // console.log("888888888")
             }
+        } else {
+            const blurDiv = document.getElementById('blur-div');
+            const blurbtn = document.getElementById('pro-insight');
+
+            // 如果找到了blur-div元素，则将其样式设置为模糊
+            if (blurDiv && blurbtn) {
+                blurDiv.style.filter = 'blur(8px)';
+                blurbtn.style.display = 'block';
+            }
         }
+
 
     }
 }
