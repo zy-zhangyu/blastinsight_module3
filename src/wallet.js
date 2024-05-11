@@ -188,8 +188,8 @@ const initWeb3Modal = (forceConnect, isMobileOnlyInjectedProvider) => {
 // }
 const initWeb3 = async (forceConnect = false) => {
     // 清除缓存的提供程序，确保每次都重新初始化
-    const web3Modal = initWeb3Modal(forceConnect);
-    web3Modal.clearCachedProvider();
+    const cachedWeb3Modal = initWeb3Modal(forceConnect);
+    cachedWeb3Modal.clearCachedProvider();
 
     // 以下是原来的代码
     const isMobileOnlyInjectedProvider = isMobile() && window.ethereum
@@ -226,6 +226,7 @@ const initWeb3 = async (forceConnect = false) => {
     }
     web3 = provider ? new Web3(provider) : undefined;
 }
+
 
 export const isWalletConnected = async () => {
     if (!isWeb3Initialized()) {
