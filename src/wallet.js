@@ -353,7 +353,7 @@ export const updateWalletStatus = async () => {
 }
 //页面刷新之后就显示小狐狸钱包
 document.addEventListener('DOMContentLoaded', async function () {
-    updateWalletStatus();
+    await updateWalletStatus();
     console.log("刷新！！")
 });
 
