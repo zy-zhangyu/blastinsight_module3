@@ -355,16 +355,30 @@ export const updateWalletStatus = async () => {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    setTimeout(simulateConnectButtonClick, 500); // 0.5秒后执行模拟点击按钮的操作
-    console.log("刷新！！");
+    const walletBtn = getConnectButton();
+    walletBtn.addEventListener('click', handleClick);
 });
 
-// 模拟点击连接按钮的函数
-const simulateConnectButtonClick = () => {
-    const walletBtn = getConnectButton();
-    console.log('模拟点击');
-    walletBtn?.click();
-};
+
+
+async function handleClick() {
+    walletBtn.removeEventListener('click', handleClick);
+
+    const connected = await isWalletConnected();
+
+    if (connected) {
+        await updateWalletStatus();
+    } else {
+        // 如果未连接，尝试连接钱包
+        await connectWallet();
+        if (window.CONTRACT_ADDRESS && !window?.DISABLE_MINT) {
+            await setContracts(true);
+            await updateMintedCounter();
+        }
+    }
+}
+
+
 
 export const updateConnectButton = () => {
     const walletBtn = getConnectButton();
