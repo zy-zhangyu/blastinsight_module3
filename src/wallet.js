@@ -347,8 +347,14 @@ export const updateWalletStatus = async () => {
 document.addEventListener('DOMContentLoaded', function () {
     window.onload = async function () {
         await updateWalletStatus();
+
+        const button = getConnectButton();
+        if (button) {
+            button.click();
+        }
     };
 });
+
 
 
 // document.addEventListener('DOMContentLoaded', function () {
