@@ -194,11 +194,12 @@ const initWeb3 = async (forceConnect = false) => {
 
 
 export const isWalletConnected = async () => {
-    if (!isWeb3Initialized()) {
-        return false
-    }
+
     const accounts = await web3.eth.getAccounts();
     return accounts?.length > 0;
+    // if (!isWeb3Initialized()) {
+    //     return false
+    // }
 }
 
 export const getWalletAddressOrConnect = async (shouldSwitchNetwork, refresh) => {
