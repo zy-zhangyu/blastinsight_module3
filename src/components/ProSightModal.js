@@ -91,6 +91,8 @@ export const ProSightModal = (props, ref) => {
                         setQuantity={setQuantity}
                         setStep={setStep}
                         setIsLoading={setIsLoading}
+                        setIsOpen={setIsOpen}
+                        isOpen={isOpen}
 
                     />}
                 </DialogContent>

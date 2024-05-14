@@ -8,7 +8,7 @@ import { parseTxError, roundToDecimal } from '../utils';
 import { Attribution } from './Attribution';
 import { isEthereumContract } from "../contract";
 
-export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setStep }) => {
+export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setStep, setIsOpen, isOpen }) => {
     const [quantityValue, setQuantityValue] = useState(1)
     const [maxTokens, setMaxTokens] = useState(3)
     const [mintPrice, setMintPrice] = useState(0)
@@ -46,8 +46,8 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
         console.log('pro_insight777777')
         setIsLoading(true)
         const { tx } = await pro_insight()
-        setIsLoading(false)
-        console.log("pro_insight666666666+setIsLoading:")
+        setIsOpen(false)
+        console.log("pro_insight666666666+setIsOpen:" + isOpen)
         setFlag(true); // 设置成功状态为 true
         // console.log("tx" + !tx)
         console.log("flag" + flag)
@@ -81,7 +81,7 @@ export const QuantityModalStep = ({ setQuantity, setIsLoading, setTxHash, setSte
     }
     return (
         <>
-            {!flag && ( // 如果成功状态为 false，显示按钮、计数器和属性的 div 元素
+            {open = { isOpen } && ( // 如果成功状态为 false，显示按钮、计数器和属性的 div 元素
                 <div style={{ width: "100%" }}>
                     <Button
                         onClick={onSuccess}
