@@ -345,23 +345,9 @@ export const updateWalletStatus = async () => {
 
 document.addEventListener('DOMContentLoaded', function () {
     window.onload = async function () {
-        await handleClick();
+        await updateWalletStatus();
     };
 });
-
-async function handleClick() {
-    const connected = await isWalletConnected();
-
-    if (connected) {
-        await updateWalletStatus();
-    } else {
-        await connectWallet();
-        if (window.CONTRACT_ADDRESS && !window?.DISABLE_MINT) {
-            await setContracts(true);
-            await updateMintedCounter();
-        }
-    }
-}
 
 
 
