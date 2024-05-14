@@ -12,6 +12,7 @@ import axios from 'axios';
 export let [web3, provider] = [];
 
 export const isWeb3Initialized = () => {
+    console.log("isWeb3Initialized执行")
     return web3 && provider;
 }
 
