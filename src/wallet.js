@@ -344,38 +344,26 @@ export const updateWalletStatus = async () => {
     }
 };
 
+
 document.addEventListener('DOMContentLoaded', function () {
     window.onload = async function () {
-        await updateWalletStatus();
-
-        const button = getConnectButton();
-        if (button) {
-            button.click();
-        }
+        await handleClick();
     };
 });
 
+async function handleClick() {
+    const connected = await isWalletConnected();
 
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     window.onload = async function () {
-//         await handleClick();
-//     };
-// });
-
-// async function handleClick() {
-//     const connected = await isWalletConnected();
-
-//     if (connected) {
-//         await updateWalletStatus();
-//     } else {
-//         await connectWallet();
-//         if (window.CONTRACT_ADDRESS && !window?.DISABLE_MINT) {
-//             await setContracts(true);
-//             await updateMintedCounter();
-//         }
-//     }
-// }
+    if (connected) {
+        await updateWalletStatus();
+    } else {
+        await connectWallet();
+        if (window.CONTRACT_ADDRESS && !window?.DISABLE_MINT) {
+            await setContracts(true);
+            await updateMintedCounter();
+        }
+    }
+}
 
 
 
