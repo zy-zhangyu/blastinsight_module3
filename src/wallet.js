@@ -318,6 +318,7 @@ async function fetchData(account) {
 export const updateWalletStatus = async () => {
     const connected = await isWalletConnected();
     const button = getConnectButton();
+    console.log('获取连接状态：' + connected);
     if (button && connected) {
         const accounts = await getWalletAddressOrConnect(true);
         const session1 = await fetchData(accounts);
@@ -325,7 +326,7 @@ export const updateWalletStatus = async () => {
         button.textContent = String(accounts).substring(0, 6) +
             "..." +
             String(accounts).substring(38);
-
+        console.log('将账户地址显示在按钮中');
         if (session1 && session1.status === true) {
             const blurDiv = document.getElementById('blur-div');
             const blurbtn = document.getElementById('pro-insight');
@@ -360,6 +361,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 export const updateInitConnectButton = async () => {
     const connected = await isWalletConnected();
+    console.log('updateInitConnectButton中的connected:' + connected)
     if (connected) {
         await updateWalletStatus()
 
