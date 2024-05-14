@@ -353,9 +353,18 @@ export const updateWalletStatus = async () => {
 }
 //页面刷新之后就显示小狐狸钱包
 document.addEventListener('DOMContentLoaded', async function () {
-    await updateWalletStatus();
+    await updateInitConnectButton();
     console.log("刷新！！")
 });
+
+
+export const updateInitConnectButton = async () => {
+    const connected = await isWalletConnected();
+    if (connected) {
+        await updateWalletStatus()
+
+    }
+};
 
 export const updateConnectButton = () => {
     const walletBtn = getConnectButton();
@@ -376,6 +385,8 @@ export const updateConnectButton = () => {
         }
     });
 };
+
+
 
 
 
