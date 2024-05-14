@@ -317,37 +317,59 @@ async function fetchData(account) {
 
 }
 export const updateWalletStatus = async () => {
-    const connected = await isWalletConnected();
-    const button = getConnectButton();
+    const [connected, button] = await Promise.all([isWalletConnected(), getConnectButton()]);
+
     if (button && connected) {
         const accounts = await getWalletAddressOrConnect(true);
         const session1 = await fetchData(accounts);
+
         button.textContent = String(accounts).substring(0, 6) +
             "..." +
             String(accounts).substring(38);
+
+        const blurDiv = document.getElementById('blur-div');
+        const blurbtn = document.getElementById('pro-insight');
+
         if (session1 && session1.status === true) {
-            const blurDiv = document.getElementById('blur-div');
-            const blurbtn = document.getElementById('pro-insight');
             if (blurDiv && blurbtn) {
                 blurDiv.style.filter = 'none';
                 blurbtn.style.display = 'none';
             }
         } else {
-            const blurDiv = document.getElementById('blur-div');
-            const blurbtn = document.getElementById('pro-insight');
             if (blurDiv && blurbtn) {
                 blurDiv.style.filter = 'blur(8px)';
                 blurbtn.style.display = 'block';
             }
         }
     }
-}
+};
 
 document.addEventListener('DOMContentLoaded', function () {
     window.onload = async function () {
         await updateWalletStatus();
     };
 });
+
+
+// document.addEventListener('DOMContentLoaded', function () {
+//     window.onload = async function () {
+//         await handleClick();
+//     };
+// });
+
+// async function handleClick() {
+//     const connected = await isWalletConnected();
+
+//     if (connected) {
+//         await updateWalletStatus();
+//     } else {
+//         await connectWallet();
+//         if (window.CONTRACT_ADDRESS && !window?.DISABLE_MINT) {
+//             await setContracts(true);
+//             await updateMintedCounter();
+//         }
+//     }
+// }
 
 
 
