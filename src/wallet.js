@@ -319,52 +319,37 @@ async function fetchData(account) {
 export const updateWalletStatus = async () => {
     const connected = await isWalletConnected();
     const button = getConnectButton();
-    console.log('获取连接状态：' + connected);
     if (button && connected) {
         const accounts = await getWalletAddressOrConnect(true);
         const session1 = await fetchData(accounts);
-        // sessionStorage.setItem(accounts, 'success');
         button.textContent = String(accounts).substring(0, 6) +
             "..." +
             String(accounts).substring(38);
-        console.log('将账户地址显示在按钮中');
         if (session1 && session1.status === true) {
             const blurDiv = document.getElementById('blur-div');
             const blurbtn = document.getElementById('pro-insight');
-
-            // 如果找到了blur-div元素，则将其样式设置为不可见
             if (blurDiv && blurbtn) {
-                // console.log("9999999")
                 blurDiv.style.filter = 'none';
                 blurbtn.style.display = 'none';
-                // console.log("888888888")
             }
         } else {
             const blurDiv = document.getElementById('blur-div');
             const blurbtn = document.getElementById('pro-insight');
-
-            // 如果找到了blur-div元素，则将其样式设置为模糊
             if (blurDiv && blurbtn) {
                 blurDiv.style.filter = 'blur(8px)';
                 blurbtn.style.display = 'block';
             }
         }
-
-
     }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const walletBtn = getConnectButton();
-    // 当页面加载完成时自动执行一次按钮点击事件
     window.onload = async function () {
         await handleClick();
     };
 });
 
 async function handleClick() {
-    const walletBtn = getConnectButton();
-    // walletBtn.removeEventListener('click', handleClick)
     const connected = await isWalletConnected();
 
     if (connected) {
@@ -453,12 +438,13 @@ const createFloatingWindow = async () => {
     coinIcon.style.marginTop = '15px';
     coinIcon.style.width = '60px'; // 可以根据需要调整图标大小
     floatingWindow.appendChild(coinIcon);
-    const accounts = await getWalletAddressOrConnect(true);
+    // const accounts = await getWalletAddressOrConnect(true);
     // 添加标题
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const title = document.createElement('div');
-    title.textContent = String(accounts).substring(0, 4) +
+    title.textContent = String(accounts[0]).substring(0, 4) +
         "..." +
-        String(accounts).substring(38);;
+        String(accounts[0]).substring(38);;
     title.style.color = 'white';
     title.style.marginTop = '0px';
     title.style.fontWeight = 'bold'; // 设置字体加粗
