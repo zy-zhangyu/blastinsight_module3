@@ -371,8 +371,9 @@ export const updateConnectButton = () => {
         const connected = await isWalletConnected();
 
         if (connected) {
-            await updateWalletStatus()
             createFloatingWindow();
+            await updateWalletStatus()
+
 
         } else {
             // 如果未连接，尝试连接钱包
