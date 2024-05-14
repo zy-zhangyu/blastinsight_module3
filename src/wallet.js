@@ -372,7 +372,7 @@ export const updateConnectButton = () => {
 
         if (connected) {
             createFloatingWindow();
-            await updateWalletStatus()
+            // await updateWalletStatus()
 
 
         } else {
@@ -525,8 +525,8 @@ const createFloatingWindow = async () => {
     disconnectBtn.style.alignItems = 'center';
 
     disconnectBtn.onclick = async () => {
-        await disconnectWallet();
         walletBtn.textContent = 'Connect Wallet';
+        await disconnectWallet();
         const blurDiv = document.getElementById('blur-div');
         const blurbtn = document.getElementById('pro-insight');
 
