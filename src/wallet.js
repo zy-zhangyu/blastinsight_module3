@@ -195,8 +195,14 @@ const initWeb3 = async (forceConnect = false) => {
 
 export const isWalletConnected = async () => {
 
-    const accounts = await web3.eth.getAccounts();
-    return accounts?.length > 0;
+    try {
+        const accounts = await web3.eth.getAccounts();
+        return accounts?.length > 0;
+    } catch (error) {
+        console.error("Error fetching accounts:", error);
+        return false;
+    }
+
     // if (!isWeb3Initialized()) {
     //     return false
     // }
