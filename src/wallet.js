@@ -356,20 +356,20 @@ export const updateWalletStatus = async () => {
 
 document.addEventListener('DOMContentLoaded', function () {
     const walletBtn = getConnectButton();
-    walletBtn.addEventListener('click', handleClick);
+    // 当页面加载完成时自动执行一次按钮点击事件
+    window.onload = async function () {
+        await handleClick();
+    };
 });
 
-
-
 async function handleClick() {
-    walletBtn.removeEventListener('click', handleClick);
-
+    const walletBtn = getConnectButton();
+    // walletBtn.removeEventListener('click', handleClick)
     const connected = await isWalletConnected();
 
     if (connected) {
         await updateWalletStatus();
     } else {
-        // 如果未连接，尝试连接钱包
         await connectWallet();
         if (window.CONTRACT_ADDRESS && !window?.DISABLE_MINT) {
             await setContracts(true);
