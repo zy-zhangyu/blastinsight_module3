@@ -369,12 +369,9 @@ export const updateConnectButton = () => {
     const walletBtn = getConnectButton();
     walletBtn?.addEventListener('click', async () => {
         const connected = await isWalletConnected();
-
+        // 如果已经连接，显示悬浮窗口而非单独的断开连接按钮
         if (connected) {
             createFloatingWindow();
-            // await updateWalletStatus()
-
-
         } else {
             // 如果未连接，尝试连接钱包
             await connectWallet();
@@ -385,7 +382,6 @@ export const updateConnectButton = () => {
         }
     });
 };
-
 
 
 
