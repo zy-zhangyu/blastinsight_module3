@@ -353,19 +353,19 @@ export const updateWalletStatus = async () => {
 
     }
 }
-//页面刷新之后就显示小狐狸钱包
+
 document.addEventListener('DOMContentLoaded', function () {
-    // updateConnectButton();
-    simulateConnectButtonClick();
-    console.log("刷新！！")
+    setTimeout(simulateConnectButtonClick, 500); // 0.5秒后执行模拟点击按钮的操作
+    console.log("刷新！！");
 });
 
 // 模拟点击连接按钮的函数
 const simulateConnectButtonClick = () => {
     const walletBtn = getConnectButton();
-    console.log('模拟点击')
+    console.log('模拟点击');
     walletBtn?.click();
 };
+
 export const updateConnectButton = () => {
     const walletBtn = getConnectButton();
     walletBtn?.addEventListener('click', async () => {
