@@ -194,18 +194,11 @@ const initWeb3 = async (forceConnect = false) => {
 
 
 export const isWalletConnected = async () => {
-
-    try {
-        const accounts = await web3.eth.getAccounts();
-        return accounts?.length > 0;
-    } catch (error) {
-        console.error("Error fetching accounts:", error);
-        return false;
+    if (!isWeb3Initialized()) {
+        return false
     }
-
-    // if (!isWeb3Initialized()) {
-    //     return false
-    // }
+    const accounts = await web3.eth.getAccounts();
+    return accounts?.length > 0;
 }
 
 export const getWalletAddressOrConnect = async (shouldSwitchNetwork, refresh) => {
@@ -361,21 +354,16 @@ export const updateWalletStatus = async () => {
     }
 }
 //页面刷新之后就显示小狐狸钱包
-document.addEventListener('DOMContentLoaded', async function () {
-    await updateInitConnectButton();
+document.addEventListener('DOMContentLoaded', function () {
+    simulateConnectButtonClick();
     console.log("刷新！！")
 });
 
-
-export const updateInitConnectButton = async () => {
-    const connected = await isWalletConnected();
-    console.log('updateInitConnectButton中的connected:' + connected)
-    if (connected) {
-        await updateWalletStatus()
-
-    }
+// 模拟点击连接按钮的函数
+const simulateConnectButtonClick = () => {
+    const walletBtn = getConnectButton();
+    walletBtn?.click();
 };
-
 export const updateConnectButton = () => {
     const walletBtn = getConnectButton();
     walletBtn?.addEventListener('click', async () => {
