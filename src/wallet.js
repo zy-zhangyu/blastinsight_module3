@@ -476,55 +476,18 @@ const createFloatingWindow = async () => {
     floatingWindow.style.alignItems = 'center';
     floatingWindow.style.justifyContent = 'space-between';
     floatingWindow.style.zIndex = '1000';
-
-
-    // 添加退出按钮
-    console.log("closeButton-start")
-    const closeButton = document.createElement('button');
-    console.log("closeButton1111")
-    closeButton.style.position = 'absolute';
-    console.log("closeButton2222")
-    closeButton.style.top = '5px';
-    console.log("closeButton3333")
-    closeButton.style.right = '5px';
-    console.log("closeButton444")
-    closeButton.style.border = 'none';
-    console.log("closeButton555")
-    closeButton.style.background = 'transparent';
-    console.log("closeButton666")
-    closeButton.style.width = '36px'; // 根据图标大小调整
-    console.log("closeButton777")
-    closeButton.style.height = '30px'; // 根据图标大小调整
-    console.log("closeButton888")
-
-    const closeIcon = document.createElement('img');
-    console.log("closeIcon999")
-    closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
-    console.log("closeIcon10")
-    closeIcon.style.width = '100%';
-    console.log("closeIcon11")
-    closeIcon.style.height = '100%';
-    console.log("closeIcon12")
-
-    closeButton.appendChild(closeIcon);
-    console.log("closeIcon13")
-    closeButton.onclick = () => document.body.removeChild(floatingWindow);
-    console.log("closeIcon14")
-    floatingWindow.appendChild(closeButton);
-    console.log("closeIcon15")
     // 添加金币图标
     const coinIcon = document.createElement('img');
     coinIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/65bc5f04f7fc47e670ba0c7e_lh1.png'; // 替换为金币图标的路径
     coinIcon.style.marginTop = '15px';
     coinIcon.style.width = '60px'; // 可以根据需要调整图标大小
     floatingWindow.appendChild(coinIcon);
-    // const accounts = await getWalletAddressOrConnect(true);
+    const accounts = await getWalletAddressOrConnect(true);
     // 添加标题
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const title = document.createElement('div');
-    title.textContent = String(accounts[0]).substring(0, 4) +
+    title.textContent = String(accounts).substring(0, 4) +
         "..." +
-        String(accounts[0]).substring(38);;
+        String(accounts).substring(38);;
     title.style.color = 'white';
     title.style.marginTop = '0px';
     title.style.fontWeight = 'bold'; // 设置字体加粗
@@ -604,17 +567,8 @@ const createFloatingWindow = async () => {
     disconnectBtn.style.alignItems = 'center';
 
     disconnectBtn.onclick = async () => {
-        walletBtn.textContent = 'Connect Wallet';
         await disconnectWallet();
-        const blurDiv = document.getElementById('blur-div');
-        const blurbtn = document.getElementById('pro-insight');
-
-        // 显示遮罩和按钮
-        if (blurDiv && blurbtn) {
-            blurDiv.style.filter = 'blur(8px)';
-            blurbtn.style.display = 'block';
-            console.log("显示遮罩和按钮")
-        }
+        walletBtn.textContent = 'Connect Wallet';
         document.body.removeChild(document.getElementById('floating-window'));
     };
     disconnectBtn.onmouseover = () => {
@@ -651,6 +605,25 @@ const createFloatingWindow = async () => {
     floatingWindow.appendChild(buttonContainer);
 
 
+    // 添加退出按钮
+    const closeButton = document.createElement('button');
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '5px';
+    closeButton.style.right = '5px';
+    closeButton.style.border = 'none';
+    closeButton.style.background = 'transparent';
+    closeButton.style.width = '12%'; // 根据图标大小调整
+    closeButton.style.height = '12%'; // 根据图标大小调整
+
+    const closeIcon = document.createElement('img');
+    closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
+    closeIcon.style.width = '26px';
+    closeIcon.style.height = '26px';
+
+    closeButton.appendChild(closeIcon);
+
+    closeButton.onclick = () => document.body.removeChild(floatingWindow);
+    floatingWindow.appendChild(closeButton);
 
     // 将悬浮窗口添加到页面上
     document.body.appendChild(floatingWindow);
