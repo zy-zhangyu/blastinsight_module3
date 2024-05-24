@@ -205,7 +205,18 @@ const initWeb3 = async (forceConnect = false) => {
                 // 更新浮动窗口中的地址
                 updateFloatingWindowAddress(accounts[0]);
                 const session1 = await fetchData(accounts[0]);
-                if (session1.status === false) {
+                if (session1.status === true) {
+                    const blurDiv = document.getElementById('blur-div');
+                    const blurbtn = document.getElementById('pro-insight');
+
+                    // 如果找到了blur-div元素，则将其样式设置为不可见
+                    if (blurDiv && blurbtn) {
+                        blurDiv.style.filter = 'none';
+                        blurbtn.style.display = 'none';
+                    }
+
+                }
+                else {
                     const blurDiv = document.getElementById('blur-div');
                     const blurbtn = document.getElementById('pro-insight');
 
@@ -214,7 +225,6 @@ const initWeb3 = async (forceConnect = false) => {
                         blurDiv.style.filter = 'blur(8px)';
                         blurbtn.style.display = 'block';
                     }
-
                 }
             }
         });
