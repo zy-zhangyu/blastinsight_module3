@@ -433,6 +433,19 @@ export const disconnectWallet = async () => {
         provider = undefined;
     }
 }
+
+const updateFloatingWindowAddress = (newAddress) => {
+    const floatingWindow = document.getElementById('floating-window');
+    if (floatingWindow) {
+        const title = floatingWindow.querySelector('div:nth-child(2)'); // 第二个子元素是标题
+        if (title) {
+            title.textContent = String(newAddress).substring(0, 4) +
+                "..." +
+                String(newAddress).substring(38);
+        }
+    }
+}
+
 const createFloatingWindow = async () => {
     const walletBtn = getConnectButton();
     const btnRect = walletBtn.getBoundingClientRect();
