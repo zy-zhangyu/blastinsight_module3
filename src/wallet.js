@@ -187,6 +187,14 @@ const initWeb3 = async (forceConnect = false) => {
                 const walletBtn = getConnectButton();
                 walletBtn.textContent = 'Connect Wallet';
                 web3Modal.clearCachedProvider();
+                const blurDiv = document.getElementById('blur-div');
+                const blurbtn = document.getElementById('pro-insight');
+
+                // 如果找到了blur-div元素，则将其样式设置为不可见
+                if (blurDiv && blurbtn) {
+                    blurDiv.style.filter = 'blur(8px)';
+                    blurbtn.style.display = 'block';
+                }
             }
             else {
                 console.log("changed1111")
@@ -197,17 +205,16 @@ const initWeb3 = async (forceConnect = false) => {
                 // 更新浮动窗口中的地址
                 updateFloatingWindowAddress(accounts[0]);
                 const session1 = await fetchData(accounts[0]);
-                if (session1 && session1.status) {
+                if (session1.status === false) {
                     const blurDiv = document.getElementById('blur-div');
                     const blurbtn = document.getElementById('pro-insight');
 
                     // 如果找到了blur-div元素，则将其样式设置为不可见
                     if (blurDiv && blurbtn) {
-                        // console.log("9999999")
-                        blurDiv.style.filter = 'none';
-                        blurbtn.style.display = 'none';
-                        // console.log("888888888")
+                        blurDiv.style.filter = 'blur(8px)';
+                        blurbtn.style.display = 'block';
                     }
+
                 }
             }
         });
