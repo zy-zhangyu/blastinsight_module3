@@ -473,13 +473,12 @@ const createFloatingWindow = async () => {
     coinIcon.style.marginTop = '15px';
     coinIcon.style.width = '60px'; // 可以根据需要调整图标大小
     floatingWindow.appendChild(coinIcon);
-    // const accounts = await getWalletAddressOrConnect(true);
+    const accounts = await getWalletAddressOrConnect(true);
     // 添加标题
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const title = document.createElement('div');
-    title.textContent = String(accounts[0]).substring(0, 4) +
+    title.textContent = String(accounts).substring(0, 4) +
         "..." +
-        String(accounts[0]).substring(38);;
+        String(accounts).substring(38);;
     title.style.color = 'white';
     title.style.marginTop = '0px';
     title.style.fontWeight = 'bold'; // 设置字体加粗
@@ -559,17 +558,8 @@ const createFloatingWindow = async () => {
     disconnectBtn.style.alignItems = 'center';
 
     disconnectBtn.onclick = async () => {
-        walletBtn.textContent = 'Connect Wallet';
         await disconnectWallet();
-        const blurDiv = document.getElementById('blur-div');
-        const blurbtn = document.getElementById('pro-insight');
-
-        // 显示遮罩和按钮
-        if (blurDiv && blurbtn) {
-            blurDiv.style.filter = 'blur(8px)';
-            blurbtn.style.display = 'block';
-            console.log("显示遮罩和按钮")
-        }
+        walletBtn.textContent = 'Connect Wallet';
         document.body.removeChild(document.getElementById('floating-window'));
     };
     disconnectBtn.onmouseover = () => {
