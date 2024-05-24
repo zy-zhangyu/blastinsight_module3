@@ -29,7 +29,7 @@ import Web3 from '../web3.js';
 export const App = () => {
     useEffect(() => {
         if (typeof window.ethereum !== 'undefined') {
-            window.ethereum.on('accountsChanged', async function (accounts) {
+            window.ethereum.on('', async function (accounts) {
                 await updateWalletStatus();
             });
         }

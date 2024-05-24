@@ -180,12 +180,35 @@ const initWeb3 = async (forceConnect = false) => {
                 web3Modal.setCachedProvider(providerID)
         }
         provider.on("accountsChanged", async (accounts) => {
-
             if (accounts.length === 0) {
                 if (provider.close) {
                     await provider.close();
                 }
+                const walletBtn = getConnectButton();
+                walletBtn.textContent = 'Connect Wallet';
                 web3Modal.clearCachedProvider();
+            }
+            else {
+                console.log("changed1111")
+                const button = getConnectButton();
+                button.textContent = String(accounts[0]).substring(0, 6) +
+                    "..." +
+                    String(accounts[0]).substring(38);
+                // 更新浮动窗口中的地址
+                updateFloatingWindowAddress(accounts[0]);
+                const session1 = await fetchData(accounts[0]);
+                if (session1 && session1.status) {
+                    const blurDiv = document.getElementById('blur-div');
+                    const blurbtn = document.getElementById('pro-insight');
+
+                    // 如果找到了blur-div元素，则将其样式设置为不可见
+                    if (blurDiv && blurbtn) {
+                        // console.log("9999999")
+                        blurDiv.style.filter = 'none';
+                        blurbtn.style.display = 'none';
+                        // console.log("888888888")
+                    }
+                }
             }
         });
     }
