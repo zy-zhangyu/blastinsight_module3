@@ -601,8 +601,8 @@ const createFloatingWindow = async () => {
     closeButton.style.position = 'absolute';
     closeButton.style.top = '5px';
     closeButton.style.right = '5px';
-    closeButton.style.border = 'none';
-    closeButton.style.background = 'transparent';
+    closeButton.style.border = '1px solid red'; // 边框调试
+    // closeButton.style.background = 'transparent';
     closeButton.style.width = '36px'; // 根据图标大小调整
     closeButton.style.height = '30px'; // 根据图标大小调整
 
