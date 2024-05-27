@@ -448,7 +448,7 @@ export const disconnectWallet = async () => {
 const updateFloatingWindowAddress = (newAddress) => {
     const floatingWindow = document.getElementById('floating-window');
     if (floatingWindow) {
-        const title = floatingWindow.querySelector('div:nth-child(2)'); // 第二个子元素是标题
+        const title = floatingWindow.querySelector('div:nth-child(3)'); // 第二个子元素是标题
         if (title) {
             title.textContent = String(newAddress).substring(0, 4) +
                 "..." +
