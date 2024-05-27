@@ -620,12 +620,12 @@ const createFloatingWindow = async () => {
         closeButton.style.right = '5px';
         closeButton.style.border = 'none';
         closeButton.style.background = 'transparent';
-        closeButton.style.width = '100%'; // 根据图标大小调整
-        // closeButton.style.height = '12%'; // 根据图标大小调整
+        closeButton.style.width = '30px'; // 根据图标大小调整
+        closeButton.style.height = '30px';
 
         const closeIcon = document.createElement('img');
         closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
-        closeIcon.style.width = '26px';
+        closeIcon.style.width = '10%';
         // closeIcon.style.height = '26px';
 
         closeButton.appendChild(closeIcon);
