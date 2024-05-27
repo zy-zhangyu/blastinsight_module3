@@ -486,18 +486,14 @@ const createFloatingWindow = async () => {
         floatingWindow.style.justifyContent = 'space-between';
         floatingWindow.style.zIndex = '1000';
 
-        // 添加关闭按钮容器以使其靠右对齐
-        const closeButtonContainer = document.createElement('div');
-        closeButtonContainer.style.width = '100%'; // 占据父容器的全宽
-        closeButtonContainer.style.display = 'flex';
-        closeButtonContainer.style.justifyContent = 'flex-end'; // 靠右对齐
+
 
         // 添加关闭按钮
         const closeButton = document.createElement('button');
         closeButton.style.border = 'none';
         closeButton.style.background = 'transparent';
-        closeButton.style.width = '26px'; // 根据图标大小调整
-        closeButton.style.height = '26px'; // 根据图标大小调整
+        closeButton.style.width = '36px'; // 根据图标大小调整
+        closeButton.style.height = '30px'; // 根据图标大小调整
         closeButton.style.marginTop = '5px'; // 距离顶部的间距
 
         const closeIcon = document.createElement('img');
@@ -512,8 +508,7 @@ const createFloatingWindow = async () => {
             isFloatingWindowCreating = false; // 重置创建状态
         };
 
-        closeButtonContainer.appendChild(closeButton);
-        floatingWindow.appendChild(closeButtonContainer);
+        floatingWindow.appendChild(closeButton);
 
         // 添加金币图标
         const coinIcon = document.createElement('img');
