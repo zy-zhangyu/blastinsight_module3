@@ -487,6 +487,30 @@ const createFloatingWindow = async () => {
         floatingWindow.style.justifyContent = 'space-between';
         floatingWindow.style.zIndex = '1000';
 
+
+        // 添加退出按钮
+        const closeButton = document.createElement('button');
+        closeButton.style.position = 'absolute';
+        closeButton.style.top = '5px';
+        closeButton.style.right = '5px';
+        closeButton.style.border = 'none';
+        closeButton.style.background = 'transparent';
+        closeButton.style.width = '12%'; // 根据图标大小调整
+        closeButton.style.height = '12%'; // 根据图标大小调整
+
+        const closeIcon = document.createElement('img');
+        closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
+        closeIcon.style.width = '26px';
+        closeIcon.style.height = '26px';
+
+        closeButton.appendChild(closeIcon);
+
+        closeButton.onclick = () => {
+            document.body.removeChild(floatingWindow);
+            isFloatingWindowCreating = false; // 重置创建状态
+        };
+        floatingWindow.appendChild(closeButton);
+
         // 添加金币图标
         const coinIcon = document.createElement('img');
         coinIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/65bc5f04f7fc47e670ba0c7e_lh1.png'; // 替换为金币图标的路径
@@ -613,28 +637,7 @@ const createFloatingWindow = async () => {
 
         floatingWindow.appendChild(buttonContainer);
 
-        // 添加退出按钮
-        const closeButton = document.createElement('button');
-        closeButton.style.position = 'absolute';
-        closeButton.style.top = '10px';
-        closeButton.style.right = '10px';
-        closeButton.style.border = 'none';
-        closeButton.style.background = 'transparent';
-        closeButton.style.width = '100%'; // 根据图标大小调整
-        closeButton.style.height = '100%'; // 根据图标大小调整
 
-        const closeIcon = document.createElement('img');
-        closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
-        closeIcon.style.width = '26px';
-        closeIcon.style.height = '26px';
-
-        closeButton.appendChild(closeIcon);
-
-        closeButton.onclick = () => {
-            document.body.removeChild(floatingWindow);
-            isFloatingWindowCreating = false; // 重置创建状态
-        };
-        floatingWindow.appendChild(closeButton);
 
         // 将悬浮窗口添加到页面上
         document.body.appendChild(floatingWindow);
