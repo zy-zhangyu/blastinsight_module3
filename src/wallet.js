@@ -194,6 +194,7 @@ const initWeb3 = async (forceConnect = false) => {
 
                 // 如果找到了blur-div元素，则将其样式设置为不可见
                 if (blurDiv && blurbtn) {
+                    console.log("没有账户连接111")
                     blurDiv.style.filter = 'blur(8px)';
                     blurbtn.style.display = 'block';
                 }
