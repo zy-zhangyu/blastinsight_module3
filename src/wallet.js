@@ -486,29 +486,18 @@ const createFloatingWindow = async () => {
         floatingWindow.style.justifyContent = 'space-between';
         floatingWindow.style.zIndex = '1000';
 
-
-
-        // 添加关闭按钮
-        const closeButton = document.createElement('button');
-        closeButton.style.border = 'none';
-        closeButton.style.background = 'transparent';
-        closeButton.style.width = '36px'; // 根据图标大小调整
-        closeButton.style.height = '30px'; // 根据图标大小调整
-        closeButton.style.marginTop = '5px'; // 距离顶部的间距
-
         const closeIcon = document.createElement('img');
         closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
-        closeIcon.style.width = '26px';
-        closeIcon.style.height = '26px';
+        closeIcon.style.width = '36px';
+        closeIcon.style.height = '32px';
+        closeIcon.style.marginTop = '10px';
 
-        closeButton.appendChild(closeIcon);
-
-        closeButton.onclick = () => {
+        closeIcon.onclick = () => {
             document.body.removeChild(floatingWindow);
             isFloatingWindowCreating = false; // 重置创建状态
         };
 
-        floatingWindow.appendChild(closeButton);
+        floatingWindow.appendChild(closeIcon);
 
         // 添加金币图标
         const coinIcon = document.createElement('img');
