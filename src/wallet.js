@@ -405,7 +405,9 @@ export const updateConnectButton = () => {
         const connected = await isWalletConnected();
         // 如果已经连接，显示悬浮窗口而非单独的断开连接按钮
         if (connected) {
-            createFloatingWindow();
+            if (!document.getElementById('floating-window')) {
+                createFloatingWindow();
+            }
         } else {
             // 如果未连接，尝试连接钱包
             await connectWallet();
@@ -455,176 +457,189 @@ const updateFloatingWindowAddress = (newAddress) => {
     }
 }
 
+let isFloatingWindowCreating = false; // 添加一个互斥锁
+//确保在一个悬浮窗口正在创建的过程中，其他的创建请求被阻止，直到当前的创建完成。
+
 const createFloatingWindow = async () => {
-    const walletBtn = getConnectButton();
-    const btnRect = walletBtn.getBoundingClientRect();
+    if (isFloatingWindowCreating) return; // 如果正在创建，则不执行后续操作
+    isFloatingWindowCreating = true; // 设置正在创建状态
 
-    const floatingWindow = document.createElement('div');
-    floatingWindow.id = 'floating-window';
-    floatingWindow.style.position = 'absolute';
-    floatingWindow.style.top = `${btnRect.bottom + window.scrollY}px`; // 保持在连接按钮正下方
-    floatingWindow.style.left = `${btnRect.left + window.scrollX - 175}px`; // 左侧偏移300px
-    floatingWindow.style.width = '320px';
-    floatingWindow.style.height = '200px';
-    floatingWindow.style.padding = '10px';
-    floatingWindow.style.border = '1px solid black';
-    floatingWindow.style.borderRadius = '20px';
-    floatingWindow.style.backgroundColor = '#001329';
-    floatingWindow.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-    floatingWindow.style.display = 'flex';
-    floatingWindow.style.flexDirection = 'column';
-    floatingWindow.style.alignItems = 'center';
-    floatingWindow.style.justifyContent = 'space-between';
-    floatingWindow.style.zIndex = '1000';
-    // 添加金币图标
-    const coinIcon = document.createElement('img');
-    coinIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/65bc5f04f7fc47e670ba0c7e_lh1.png'; // 替换为金币图标的路径
-    coinIcon.style.marginTop = '15px';
-    coinIcon.style.width = '60px'; // 可以根据需要调整图标大小
-    floatingWindow.appendChild(coinIcon);
-    const accounts = await getWalletAddressOrConnect(true);
-    // 添加标题
-    const title = document.createElement('div');
-    title.textContent = String(accounts).substring(0, 4) +
-        "..." +
-        String(accounts).substring(38);;
-    title.style.color = 'white';
-    title.style.marginTop = '0px';
-    title.style.fontWeight = 'bold'; // 设置字体加粗
-    title.style.fontSize = '24px'; // 设置字体大小为20像素
-    floatingWindow.appendChild(title);
+    try {
+        console.log("creating2222")
+        const walletBtn = getConnectButton();
+        const btnRect = walletBtn.getBoundingClientRect();
 
-    // 添加复制地址按钮
-    const copyAddressBtn = document.createElement('button');
-    copyAddressBtn.style.backgroundColor = '#373a40';
-    copyAddressBtn.style.color = 'white';
-    copyAddressBtn.style.border = 'none';
-    copyAddressBtn.style.padding = '10px 20px';
-    copyAddressBtn.style.borderRadius = '5px';
-    copyAddressBtn.style.width = '140px'; // 设置按钮宽度，使其固定不变
-    copyAddressBtn.style.position = 'relative'; // 让图标相对于按钮定位
-    copyAddressBtn.onclick = async () => {
-        const accounts = await web3.eth.getAccounts();
-        navigator.clipboard.writeText(accounts[0]);
-        // 修改按钮文本为“复制成功”
-        copyText.textContent = 'Copy Success!';
-        // 隐藏复制图标，显示成功图标
-        copyIcon.style.display = 'none';
-        successIcon.style.display = 'inline-block';
-        // 延迟2秒后恢复按钮文本内容为“Copy Address”
-        setTimeout(() => {
-            copyText.textContent = 'Copy Address';
-            // 显示复制图标，隐藏成功图标
-            copyIcon.style.display = 'inline-block';
-            successIcon.style.display = 'none';
-        }, 2000);
-    };
-    copyAddressBtn.onmouseover = () => {
-        copyAddressBtn.style.backgroundColor = '#464a51'; // 按钮背景颜色变化
-    };
-    copyAddressBtn.onmouseleave = () => {
-        copyAddressBtn.style.backgroundColor = '#373a40'; // 恢复原始按钮背景颜色
-    };
-    // 设置按钮样式为 Flex 布局，并垂直居中排列
-    copyAddressBtn.style.display = 'flex';
-    copyAddressBtn.style.flexDirection = 'column';
-    copyAddressBtn.style.alignItems = 'center';
+        const floatingWindow = document.createElement('div');
+        floatingWindow.id = 'floating-window';
+        floatingWindow.style.position = 'absolute';
+        floatingWindow.style.top = `${btnRect.bottom + window.scrollY}px`; // 保持在连接按钮正下方
+        floatingWindow.style.left = `${btnRect.left + window.scrollX - 175}px`; // 左侧偏移300px
+        floatingWindow.style.width = '320px';
+        floatingWindow.style.height = '200px';
+        floatingWindow.style.padding = '10px';
+        floatingWindow.style.border = '1px solid black';
+        floatingWindow.style.borderRadius = '20px';
+        floatingWindow.style.backgroundColor = '#001329';
+        floatingWindow.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+        floatingWindow.style.display = 'flex';
+        floatingWindow.style.flexDirection = 'column';
+        floatingWindow.style.alignItems = 'center';
+        floatingWindow.style.justifyContent = 'space-between';
+        floatingWindow.style.zIndex = '1000';
 
-    // 添加图标到按钮中，第一行居中显示
-    const copyIcon = document.createElement('img');
-    copyIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236ff2b37472eeb86c76e_copy.png'; // 替换为您的图标路径
-    copyIcon.style.width = '20px'; // 设置图标大小
-    copyIcon.style.display = 'inline-block'; // 初始显示
-    copyAddressBtn.appendChild(copyIcon);
+        // 添加金币图标
+        const coinIcon = document.createElement('img');
+        coinIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/65bc5f04f7fc47e670ba0c7e_lh1.png'; // 替换为金币图标的路径
+        coinIcon.style.marginTop = '15px';
+        coinIcon.style.width = '60px'; // 可以根据需要调整图标大小
+        floatingWindow.appendChild(coinIcon);
 
-    // 添加备用图标到按钮中，用于成功后的状态，初始隐藏
-    const successIcon = document.createElement('img');
-    successIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236ff2b37472eeb86c774_correct4.png'; // 替换为您的备用图标路径
-    successIcon.style.width = '20px'; // 设置备用图标大小
-    successIcon.style.display = 'none'; // 初始隐藏
-    copyAddressBtn.appendChild(successIcon);
+        const accounts = await getWalletAddressOrConnect(true);
 
-    // 添加文本到按钮中，第二行居中显示
-    const copyText = document.createElement('span');
-    copyText.textContent = 'Copy Address';
-    copyText.style.color = 'white';
-    copyText.style.marginTop = '5px'; // 设置文本与图标之间的间距
-    copyAddressBtn.appendChild(copyText);
+        // 添加标题
+        const title = document.createElement('div');
+        title.textContent = String(accounts).substring(0, 4) + "..." + String(accounts).substring(38);
+        title.style.color = 'white';
+        title.style.marginTop = '0px';
+        title.style.fontWeight = 'bold'; // 设置字体加粗
+        title.style.fontSize = '24px'; // 设置字体大小为20像素
+        floatingWindow.appendChild(title);
 
-    // 添加断开连接按钮
-    const disconnectBtn = document.createElement('button');
-    disconnectBtn.style.backgroundColor = '#373a40';
-    disconnectBtn.style.color = 'white';
-    disconnectBtn.style.border = 'none';
-    disconnectBtn.style.padding = '10px 20px';
-    disconnectBtn.style.borderRadius = '5px';
-    disconnectBtn.style.width = '140px';
-    disconnectBtn.style.position = 'relative'; // 让图标相对于按钮定位
+        // 添加复制地址按钮
+        const copyAddressBtn = document.createElement('button');
+        copyAddressBtn.style.backgroundColor = '#373a40';
+        copyAddressBtn.style.color = 'white';
+        copyAddressBtn.style.border = 'none';
+        copyAddressBtn.style.padding = '10px 20px';
+        copyAddressBtn.style.borderRadius = '5px';
+        copyAddressBtn.style.width = '140px'; // 设置按钮宽度，使其固定不变
+        copyAddressBtn.style.position = 'relative'; // 让图标相对于按钮定位
+        copyAddressBtn.onclick = async () => {
+            const accounts = await web3.eth.getAccounts();
+            navigator.clipboard.writeText(accounts[0]);
+            // 修改按钮文本为“复制成功”
+            copyText.textContent = 'Copy Success!';
+            // 隐藏复制图标，显示成功图标
+            copyIcon.style.display = 'none';
+            successIcon.style.display = 'inline-block';
+            // 延迟2秒后恢复按钮文本内容为“Copy Address”
+            setTimeout(() => {
+                copyText.textContent = 'Copy Address';
+                // 显示复制图标，隐藏成功图标
+                copyIcon.style.display = 'inline-block';
+                successIcon.style.display = 'none';
+            }, 2000);
+        };
+        copyAddressBtn.onmouseover = () => {
+            copyAddressBtn.style.backgroundColor = '#464a51'; // 按钮背景颜色变化
+        };
+        copyAddressBtn.onmouseleave = () => {
+            copyAddressBtn.style.backgroundColor = '#373a40'; // 恢复原始按钮背景颜色
+        };
+        // 设置按钮样式为 Flex 布局，并垂直居中排列
+        copyAddressBtn.style.display = 'flex';
+        copyAddressBtn.style.flexDirection = 'column';
+        copyAddressBtn.style.alignItems = 'center';
 
-    // 使用 Flex 布局使图标和文本分别在两行显示
-    disconnectBtn.style.display = 'flex';
-    disconnectBtn.style.flexDirection = 'column';
-    disconnectBtn.style.alignItems = 'center';
+        // 添加图标到按钮中，第一行居中显示
+        const copyIcon = document.createElement('img');
+        copyIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236ff2b37472eeb86c76e_copy.png'; // 替换为您的图标路径
+        copyIcon.style.width = '20px'; // 设置图标大小
+        copyIcon.style.display = 'inline-block'; // 初始显示
+        copyAddressBtn.appendChild(copyIcon);
 
-    disconnectBtn.onclick = async () => {
-        await disconnectWallet();
-        walletBtn.textContent = 'Connect Wallet';
-        document.body.removeChild(document.getElementById('floating-window'));
-    };
-    disconnectBtn.onmouseover = () => {
-        disconnectBtn.style.backgroundColor = '#464a51'; // 按钮背景颜色变化
-    };
-    disconnectBtn.onmouseleave = () => {
-        disconnectBtn.style.backgroundColor = '#373a40'; // 恢复原始按钮背景颜色
-    };
+        // 添加备用图标到按钮中，用于成功后的状态，初始隐藏
+        const successIcon = document.createElement('img');
+        successIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236ff2b37472eeb86c774_correct4.png'; // 替换为您的备用图标路径
+        successIcon.style.width = '20px'; // 设置备用图标大小
+        successIcon.style.display = 'none'; // 初始隐藏
+        copyAddressBtn.appendChild(successIcon);
 
-    // 添加图标到按钮中，第一行居中显示
-    const disconnectIcon = document.createElement('img');
-    disconnectIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fea8850ec53ff2463c_disconnect.png'; // 替换为您的图标路径
-    disconnectIcon.style.width = '20px'; // 设置图标大小
-    disconnectBtn.appendChild(disconnectIcon);
+        // 添加文本到按钮中，第二行居中显示
+        const copyText = document.createElement('span');
+        copyText.textContent = 'Copy Address';
+        copyText.style.color = 'white';
+        copyText.style.marginTop = '5px'; // 设置文本与图标之间的间距
+        copyAddressBtn.appendChild(copyText);
 
-    // 添加文本到按钮中，第二行居中显示
-    const disconnectText = document.createElement('span');
-    disconnectText.textContent = 'Disconnect';
-    disconnectText.style.color = 'white';
-    disconnectText.style.marginTop = '5px'; // 设置文本与图标之间的间距
-    disconnectBtn.appendChild(disconnectText);
+        // 添加断开连接按钮
+        const disconnectBtn = document.createElement('button');
+        disconnectBtn.style.backgroundColor = '#373a40';
+        disconnectBtn.style.color = 'white';
+        disconnectBtn.style.border = 'none';
+        disconnectBtn.style.padding = '10px 20px';
+        disconnectBtn.style.borderRadius = '5px';
+        disconnectBtn.style.width = '140px';
+        disconnectBtn.style.position = 'relative'; // 让图标相对于按钮定位
 
-    // 将按钮添加到悬浮弹窗中
-    floatingWindow.appendChild(disconnectBtn);
+        // 使用 Flex 布局使图标和文本分别在两行显示
+        disconnectBtn.style.display = 'flex';
+        disconnectBtn.style.flexDirection = 'column';
+        disconnectBtn.style.alignItems = 'center';
 
-    // 创建按钮容器以使按钮水平排列
-    const buttonContainer = document.createElement('div');
-    buttonContainer.appendChild(copyAddressBtn);
-    buttonContainer.appendChild(disconnectBtn);
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.justifyContent = 'space-evenly';
-    buttonContainer.style.width = '100%';
+        disconnectBtn.onclick = async () => {
+            await disconnectWallet();
+            walletBtn.textContent = 'Connect Wallet';
+            document.body.removeChild(document.getElementById('floating-window'));
+            isFloatingWindowCreating = false; // 重置创建状态
+        };
+        disconnectBtn.onmouseover = () => {
+            disconnectBtn.style.backgroundColor = '#464a51'; // 按钮背景颜色变化
+        };
+        disconnectBtn.onmouseleave = () => {
+            disconnectBtn.style.backgroundColor = '#373a40'; // 恢复原始按钮背景颜色
+        };
 
-    floatingWindow.appendChild(buttonContainer);
+        // 添加图标到按钮中，第一行居中显示
+        const disconnectIcon = document.createElement('img');
+        disconnectIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fea8850ec53ff2463c_disconnect.png'; // 替换为您的图标路径
+        disconnectIcon.style.width = '20px'; // 设置图标大小
+        disconnectBtn.appendChild(disconnectIcon);
 
+        // 添加文本到按钮中，第二行居中显示
+        const disconnectText = document.createElement('span');
+        disconnectText.textContent = 'Disconnect';
+        disconnectText.style.color = 'white';
+        disconnectText.style.marginTop = '5px'; // 设置文本与图标之间的间距
+        disconnectBtn.appendChild(disconnectText);
 
-    // 添加退出按钮
-    const closeButton = document.createElement('button');
-    closeButton.style.position = 'absolute';
-    closeButton.style.top = '5px';
-    closeButton.style.right = '5px';
-    closeButton.style.border = 'none';
-    closeButton.style.background = 'transparent';
-    closeButton.style.width = '12%'; // 根据图标大小调整
-    closeButton.style.height = '12%'; // 根据图标大小调整
+        // 创建按钮容器以使按钮水平排列
+        const buttonContainer = document.createElement('div');
+        buttonContainer.appendChild(copyAddressBtn);
+        buttonContainer.appendChild(disconnectBtn);
+        buttonContainer.style.display = 'flex';
+        buttonContainer.style.justifyContent = 'space-evenly';
+        buttonContainer.style.width = '100%';
 
-    const closeIcon = document.createElement('img');
-    closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
-    closeIcon.style.width = '26px';
-    closeIcon.style.height = '26px';
+        floatingWindow.appendChild(buttonContainer);
 
-    closeButton.appendChild(closeIcon);
+        // 添加退出按钮
+        const closeButton = document.createElement('button');
+        closeButton.style.position = 'absolute';
+        closeButton.style.top = '5px';
+        closeButton.style.right = '5px';
+        closeButton.style.border = 'none';
+        closeButton.style.background = 'transparent';
+        closeButton.style.width = '12%'; // 根据图标大小调整
+        closeButton.style.height = '12%'; // 根据图标大小调整
 
-    closeButton.onclick = () => document.body.removeChild(floatingWindow);
-    floatingWindow.appendChild(closeButton);
+        const closeIcon = document.createElement('img');
+        closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
+        closeIcon.style.width = '26px';
+        closeIcon.style.height = '26px';
 
-    // 将悬浮窗口添加到页面上
-    document.body.appendChild(floatingWindow);
+        closeButton.appendChild(closeIcon);
+
+        closeButton.onclick = () => {
+            document.body.removeChild(floatingWindow);
+            isFloatingWindowCreating = false; // 重置创建状态
+        };
+        floatingWindow.appendChild(closeButton);
+
+        // 将悬浮窗口添加到页面上
+        document.body.appendChild(floatingWindow);
+    } catch (error) {
+        console.error('Failed to create floating window:', error);
+        isFloatingWindowCreating = false; // 出错时也重置创建状态
+    }
 };
