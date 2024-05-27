@@ -465,7 +465,7 @@ const createFloatingWindow = async () => {
     isFloatingWindowCreating = true; // 设置正在创建状态
 
     try {
-        console.log("creating2222")
+        console.log("creating222")
         const walletBtn = getConnectButton();
         const btnRect = walletBtn.getBoundingClientRect();
 
@@ -616,17 +616,17 @@ const createFloatingWindow = async () => {
         // 添加退出按钮
         const closeButton = document.createElement('button');
         closeButton.style.position = 'absolute';
-        closeButton.style.top = '5px';
-        closeButton.style.right = '5px';
+        closeButton.style.top = '10px';
+        closeButton.style.right = '10px';
         closeButton.style.border = 'none';
         closeButton.style.background = 'transparent';
-        closeButton.style.width = '30px'; // 根据图标大小调整
-        closeButton.style.height = '30px';
+        closeButton.style.width = '100%'; // 根据图标大小调整
+        closeButton.style.height = '100%'; // 根据图标大小调整
 
         const closeIcon = document.createElement('img');
         closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
-        closeIcon.style.width = '10%';
-        // closeIcon.style.height = '26px';
+        closeIcon.style.width = '26px';
+        closeIcon.style.height = '26px';
 
         closeButton.appendChild(closeIcon);
 
