@@ -459,7 +459,6 @@ const updateFloatingWindowAddress = (newAddress) => {
 
 let isFloatingWindowCreating = false; // 添加一个互斥锁
 //确保在一个悬浮窗口正在创建的过程中，其他的创建请求被阻止，直到当前的创建完成。
-
 const createFloatingWindow = async () => {
     if (isFloatingWindowCreating) return; // 如果正在创建，则不执行后续操作
     isFloatingWindowCreating = true; // 设置正在创建状态
@@ -487,16 +486,19 @@ const createFloatingWindow = async () => {
         floatingWindow.style.justifyContent = 'space-between';
         floatingWindow.style.zIndex = '1000';
 
+        // 添加关闭按钮容器以使其靠右对齐
+        const closeButtonContainer = document.createElement('div');
+        closeButtonContainer.style.width = '100%'; // 占据父容器的全宽
+        closeButtonContainer.style.display = 'flex';
+        closeButtonContainer.style.justifyContent = 'flex-end'; // 靠右对齐
 
-        // 添加退出按钮
+        // 添加关闭按钮
         const closeButton = document.createElement('button');
-        closeButton.style.position = 'absolute';
-        closeButton.style.top = '5px';
-        closeButton.style.right = '5px';
         closeButton.style.border = 'none';
         closeButton.style.background = 'transparent';
-        closeButton.style.width = '12%'; // 根据图标大小调整
-        closeButton.style.height = '12%'; // 根据图标大小调整
+        closeButton.style.width = '26px'; // 根据图标大小调整
+        closeButton.style.height = '26px'; // 根据图标大小调整
+        closeButton.style.marginTop = '5px'; // 距离顶部的间距
 
         const closeIcon = document.createElement('img');
         closeIcon.src = 'https://uploads-ssl.webflow.com/65bc5c072835ea18c7eb3466/662236fe1f5ef2481f575805_tuichu.png'; // 替换为退出图标的路径
@@ -509,7 +511,9 @@ const createFloatingWindow = async () => {
             document.body.removeChild(floatingWindow);
             isFloatingWindowCreating = false; // 重置创建状态
         };
-        floatingWindow.appendChild(closeButton);
+
+        closeButtonContainer.appendChild(closeButton);
+        floatingWindow.appendChild(closeButtonContainer);
 
         // 添加金币图标
         const coinIcon = document.createElement('img');
@@ -636,8 +640,6 @@ const createFloatingWindow = async () => {
         buttonContainer.style.width = '100%';
 
         floatingWindow.appendChild(buttonContainer);
-
-
 
         // 将悬浮窗口添加到页面上
         document.body.appendChild(floatingWindow);
