@@ -1,4 +1,4 @@
-import { getMaxSupply, getMintedNumber} from "./web3.js";
+import { getMaxSupply, getMintedNumber } from "./web3.js";
 import { showMintModal } from "../components/MintModal";
 
 import { showScoreModal } from "../components/ShowScoreModal.js";

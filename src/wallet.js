@@ -185,6 +185,7 @@ const initWeb3 = async (forceConnect = false) => {
         // Add the accountsChanged listener
         provider.on("accountsChanged", async (accounts) => {
             if (accounts.length === 0) {
+                console.log("没有账号链接")
                 if (provider.close) {
                     await provider.close();
                 }
