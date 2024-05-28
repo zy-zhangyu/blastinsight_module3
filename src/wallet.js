@@ -383,14 +383,22 @@ export const updateWalletStatus = async () => {
 
 
 document.addEventListener('DOMContentLoaded', async function () {
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const button = getConnectButton();
-    if (accounts) {
-        // 若已连接，修改按钮文本为账户地址前6位加省略号再加最后6位
-        const truncatedAddress = String(accounts[0]).substring(0, 6) + "..." + String(accounts[0]).substring(38);
-        button.textContent = truncatedAddress;
-    }
+    await handleClick();
 });
+
+async function handleClick() {
+    const connected = await isWalletConnected();
+
+    if (connected) {
+        await updateWalletStatus();
+    } else {
+        await connectWallet();
+        if (window.CONTRACT_ADDRESS && !window?.DISABLE_MINT) {
+            await setContracts(true);
+            await updateMintedCounter();
+        }
+    }
+}
 
 
 
@@ -613,6 +621,7 @@ const createFloatingWindow = async () => {
         disconnectBtn.onclick = async () => {
             await disconnectWallet();
             walletBtn.textContent = 'Connect Wallet';
+
         };
         disconnectBtn.onmouseover = () => {
             disconnectBtn.style.backgroundColor = '#464a51'; // 按钮背景颜色变化
