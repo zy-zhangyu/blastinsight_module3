@@ -179,12 +179,11 @@ const initWeb3 = async (forceConnect = false) => {
             if (providerID)
                 web3Modal.setCachedProvider(providerID)
         }
-        //在绑定之前移除已有的事件监听器
-        if (provider.listenerCount("accountsChanged") > 0) {
-            provider.removeListener("accountsChanged", accountsChangedHandler);
-        }
+        // Remove existing listeners to avoid duplicate handling
+        provider.removeAllListeners("accountsChanged");
 
-        accountsChangedHandler = async (accounts) => {
+        // Add the accountsChanged listener
+        provider.on("accountsChanged", async (accounts) => {
             if (accounts.length === 0) {
                 if (provider.close) {
                     await provider.close();
@@ -230,13 +229,10 @@ const initWeb3 = async (forceConnect = false) => {
                     }
                 }
             }
-        };
-
-        provider.on("accountsChanged", accountsChangedHandler);
-
+        });
     }
     web3 = provider ? new Web3(provider) : undefined;
-}
+};
 
 
 export const isWalletConnected = async () => {
