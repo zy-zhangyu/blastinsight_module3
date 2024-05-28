@@ -188,6 +188,7 @@ const initWeb3 = async (forceConnect = false) => {
                 walletBtn.textContent = 'Connect Wallet';
                 if (document.getElementById('floating-window'))
                     document.body.removeChild(document.getElementById('floating-window'));
+                isFloatingWindowCreating = false; // 修改状态
                 web3Modal.clearCachedProvider();
                 const blurDiv = document.getElementById('blur-div');
                 const blurbtn = document.getElementById('pro-insight');
