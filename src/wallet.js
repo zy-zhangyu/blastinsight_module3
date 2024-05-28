@@ -179,7 +179,12 @@ const initWeb3 = async (forceConnect = false) => {
             if (providerID)
                 web3Modal.setCachedProvider(providerID)
         }
-        provider.on("accountsChanged", async (accounts) => {
+        //在绑定之前移除已有的事件监听器
+        if (provider.listenerCount("accountsChanged") > 0) {
+            provider.removeListener("accountsChanged", accountsChangedHandler);
+        }
+
+        accountsChangedHandler = async (accounts) => {
             if (accounts.length === 0) {
                 if (provider.close) {
                     await provider.close();
@@ -195,14 +200,13 @@ const initWeb3 = async (forceConnect = false) => {
 
                 // 如果找到了blur-div元素，则将其样式设置为不可见
                 if (blurDiv && blurbtn) {
-                    console.log("现在没有账户连接111")
+                    console.log("现在没有账户连接111");
                     blurDiv.style.filter = 'blur(8px)';
                     blurbtn.style.display = 'block';
                 }
 
-            }
-            else {
-                console.log("account changed 1111")
+            } else {
+                console.log("account changed 1111");
                 const button = getConnectButton();
                 button.textContent = String(accounts[0]).substring(0, 6) +
                     "..." +
@@ -211,9 +215,9 @@ const initWeb3 = async (forceConnect = false) => {
                 updateFloatingWindowAddress(accounts[0]);
                 const blurDiv = document.getElementById('blur-div');
                 const blurbtn = document.getElementById('pro-insight');
-                console.log("开始获取session1")
+                console.log("开始获取session1");
                 const session1 = await fetchData(accounts[0]);
-                console.log("session1获取结束")
+                console.log("session1获取结束");
                 if (session1 && session1.status === true) {
                     if (blurDiv && blurbtn) {
                         blurDiv.style.filter = 'none';
@@ -226,7 +230,10 @@ const initWeb3 = async (forceConnect = false) => {
                     }
                 }
             }
-        });
+        };
+
+        provider.on("accountsChanged", accountsChangedHandler);
+
     }
     web3 = provider ? new Web3(provider) : undefined;
 }
