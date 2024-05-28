@@ -180,7 +180,7 @@ const initWeb3 = async (forceConnect = false) => {
                 web3Modal.setCachedProvider(providerID)
         }
         // Remove existing listeners to avoid duplicate handling
-        provider.removeAllListeners("accountsChanged");
+        // provider.removeAllListeners("accountsChanged");
 
         // Add the accountsChanged listener
         provider.on("accountsChanged", async (accounts) => {
