@@ -195,14 +195,14 @@ const initWeb3 = async (forceConnect = false) => {
 
                 // 如果找到了blur-div元素，则将其样式设置为不可见
                 if (blurDiv && blurbtn) {
-                    console.log("没有账户连接111")
+                    console.log("现在没有账户连接111")
                     blurDiv.style.filter = 'blur(8px)';
                     blurbtn.style.display = 'block';
                 }
 
             }
             else {
-                console.log("changed1111")
+                console.log("account changed 1111")
                 const button = getConnectButton();
                 button.textContent = String(accounts[0]).substring(0, 6) +
                     "..." +
@@ -211,7 +211,9 @@ const initWeb3 = async (forceConnect = false) => {
                 updateFloatingWindowAddress(accounts[0]);
                 const blurDiv = document.getElementById('blur-div');
                 const blurbtn = document.getElementById('pro-insight');
+                console.log("开始获取session1")
                 const session1 = await fetchData(accounts[0]);
+                console.log("session1获取结束")
                 if (session1 && session1.status === true) {
                     if (blurDiv && blurbtn) {
                         blurDiv.style.filter = 'none';
