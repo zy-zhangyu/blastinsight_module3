@@ -426,10 +426,14 @@ export const updateConnectButton = () => {
 
 
 
+let isDisconnecting = false;
+//添加互斥锁
 export const disconnectWallet = async () => {
-    if (!provider) {
+    if (!provider || isDisconnecting) {
         return;
     }
+
+    isDisconnecting = true; // 设置断开标志，防止重复执行
 
     try {
         // 如果提供程序支持关闭，则关闭提供程序
@@ -437,17 +441,29 @@ export const disconnectWallet = async () => {
             await provider.close();
         }
 
+        // 撤销钱包的账户权限
+        var res = await window.ethereum.request({
+            method: "wallet_revokePermissions",
+            params: [{
+                eth_accounts: {}
+            }]
+        });
+        console.log('账户权限已撤销', res);
+
         // 清除 Web3Modal 中的缓存提供程序
         const web3Modal = initWeb3Modal();
         web3Modal.clearCachedProvider();
+
     } catch (error) {
         console.error('disconnect error:', error);
     } finally {
         // 重置 web3 和 provider
         web3 = undefined;
         provider = undefined;
+        isDisconnecting = false; // 重置断开标志
     }
-}
+};
+
 
 const updateFloatingWindowAddress = (newAddress) => {
     const floatingWindow = document.getElementById('floating-window');
