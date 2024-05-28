@@ -623,8 +623,6 @@ const createFloatingWindow = async () => {
         disconnectBtn.onclick = async () => {
             await disconnectWallet();
             walletBtn.textContent = 'Connect Wallet';
-            document.body.removeChild(document.getElementById('floating-window'));
-            isFloatingWindowCreating = false; // 重置创建状态
         };
         disconnectBtn.onmouseover = () => {
             disconnectBtn.style.backgroundColor = '#464a51'; // 按钮背景颜色变化
